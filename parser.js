@@ -40,7 +40,7 @@ class PersonParser {
         console.log('Error data file');
       } else {
         let people = data.split('\n')
-        for (let i = 0; i < people.length-1; i++) {
+        for (let i = 1; i < people.length-1; i++) {
           let dataSplit = people[i].split(',')
           let person = new Person(dataSplit[0],dataSplit[1],dataSplit[2],dataSplit[3],dataSplit[4],new Date());
           parser.people.push(person);
@@ -59,8 +59,8 @@ let parser = new PersonParser('people.csv')
 parser.getData(function(){
 
   // -- add new people data --
-  // parser.addPerson(new Person(parser.people.length, 'Patur', 'Rohman', 'Patur@aawa.edu', '1-928-384-992', '2017-10-11T04:22:20-07:00'));
+  // parser.addPerson(new Person(parser.people.length+1, 'Patur', 'Rohman', 'Patur@aawa.edu', '1-928-384-992', '2017-10-11T04:22:20-07:00'));
   // parser.save();
 
-  console.log(`There are ${parser.people.length-1} people in the file '${parser._file}'.`)
+  console.log(`There are ${parser.people.length} people in the file '${parser._file}'.`)
 });
