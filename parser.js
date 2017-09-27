@@ -1,25 +1,25 @@
 "use strict"
+const PersonParser = require('./personParser.js');
+const FakePersonFactory = require('./fakePersonFactory.js');
 
-class Person {
-  // Look at the above CSV file
-  // What attributes should a Person object have?
-}
 
-class PersonParser {
+let parser = new PersonParser('people.csv');
 
-  constructor(file) {
-    this._file = file
-    this._people = null
-  }
+// parser read will pass the PersonParser's instance object (parser)
+// as its callback argument
+parser.read(parser => {
+    // log the number of people in the parser object
+    console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`);
 
-  get people() {
-    return this._people
-  }
+    // create new fake person
+    let fakePerson = FakePersonFactory.create();
 
-  addPerson() {}
+    // add fake person to parser object;
+    parser.addPerson(fakePerson);
 
-}
-
-let parser = new PersonParser('people.csv')
-
-console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
+    // write to file
+    parser.save(parser => {
+        // log the number of people after the new person is saved
+        console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`);
+    });
+})
