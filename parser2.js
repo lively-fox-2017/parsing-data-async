@@ -50,44 +50,30 @@ class PersonParser {
   }
 
   addPerson(obj) {
-    this.parse(function(dataKeSatu) {
-      dataKeSatu.push(obj)
-    })
+    this._people.push(obj)
   }
 
   save() {
+    var str = 'id,first_name,last_name,email,phone,created_at'
 
-    this.parse(function(dataKeSatu) {
-      dataKeSatu.push(new Person('203','Blaze','Gould','lorem@Nullaeu.org','1-377-980-7889','2013-01-24T02:20:11-08:00'))
-      var fs = require('fs')
-      var str = 'id,first_name,last_name,email,phone,created_at'
+    for(var i = 0; i < this._people.length; i++) {
+      str = str + '\n' + this._people[i].id + ','
+      str = str + this._people[i].first_name + ','
+      str = str + this._people[i].last_name + ','
+      str = str + this._people[i].email + ','
+      str = str + this._people[i].phone + ','
+      str = str + this._people[i].created_at
+    }
 
-      for(var i = 0; i < dataKeSatu.length; i++) {
-        str = str + '\n' + dataKeSatu[i].id + ','
-        str = str + dataKeSatu[i].first_name + ','
-        str = str + dataKeSatu[i].last_name + ','
-        str = str + dataKeSatu[i].email + ','
-        str = str + dataKeSatu[i].phone + ','
-        str = str + dataKeSatu[i].created_at
-      }
-      fs.writeFile('orang.csv', str, (err) => {
-        console.log('The file has been saved!');
-      });
-    })
+
+    var fs = require("fs")
+    fs.writeFileSync(this._file, str) //menulis file
   }
 
 }
 
 let parser = new PersonParser('people.csv')
-let udin = new Person('203','Blaze','Gould','lorem@Nullaeu.org','1-377-980-7889','2013-01-24T02:20:11-08:00')
-parser.parse(function(dataKeSatu) {
-  console.log(dataKeSatu);
-  parser.addPerson(udin)
+
+parser.parse(function() {
+  console.log(parser.people);
 })
-
-parser.save()
-
-
-
-
-//console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
