@@ -32,18 +32,23 @@ class PersonParser {
   simpan() {
     // console.log(this.people[200]);
     var tampung = "id,first_name,last_name,email,phone,created_at,\n";
-
     this.people.forEach(function (element) {
       tampung += element.id + ',';
       tampung += element.first_name + ',';
       tampung += element.last_name + ',';
       tampung += element.email + ',';
       tampung += element.phone + ',';
-      tampung += element.created_at + ',';
+      tampung += element.created_at.toISOString() + ',';
       tampung += '\n';
     }, this);
     // console.log(tampung);
-    fs.writeFile('people.csv', tampung);
+    fs.writeFile('people.csv', tampung, (err, tersimpan) => {
+      if (err) {
+        console.log('Data gagal di simpan');
+      } else {
+        console.log('Data berhasil di simpan');
+      }
+    });
   }
   parsing(callback) {
     this._people = [];
@@ -53,7 +58,7 @@ class PersonParser {
         callback(err)
       } else {
         let pecah = data.split('\n');
-        for (var parsing = 1; parsing < pecah.length; parsing++) {
+        for (var parsing = 1; parsing < pecah.length-1; parsing++) {
           let obj = pecah[parsing].split(',');
           let hasilObj = new Person({
             id: obj[0],
@@ -61,9 +66,9 @@ class PersonParser {
             l_name: obj[2],
             email: obj[3],
             telepon: obj[4],
-            pembuatan: new Date(obj[5]).toISOString()
+            pembuatan: new Date(obj[5])
           });
-          this._people.push(hasilObj)
+          this._people.push(hasilObj);
         }
         callback();
       }
