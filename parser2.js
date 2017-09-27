@@ -54,24 +54,26 @@ class PersonParser {
   }
 
   save() {
+    var str = 'id,first_name,last_name,email,phone,created_at'
 
-    this.parse(function(dataKeSatu, dataKeDua, dataKetiga) {
-      var fs = require('fs')
-      fs.writeFile('tes.txt', dataKeSatu, (err) => {
-        console.log('The file has been saved!');
-      });
-    })
+    for(var i = 0; i < this._people.length; i++) {
+      str = str + '\n' + this._people[i].id + ','
+      str = str + this._people[i].first_name + ','
+      str = str + this._people[i].last_name + ','
+      str = str + this._people[i].email + ','
+      str = str + this._people[i].phone + ','
+      str = str + this._people[i].created_at
+    }
+
+
+    var fs = require("fs")
+    fs.writeFileSync(this._file, str) //menulis file
   }
 
 }
 
 let parser = new PersonParser('people.csv')
 
-parser.parse(function(dataKeSatu) {
-  console.log(dataKeSatu);
+parser.parse(function() {
+  console.log(parser.people);
 })
-
-
-
-
-//console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
