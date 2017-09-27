@@ -105,6 +105,21 @@ class PersonParser {
     fs.writeFileSync(this._file, result);
   }
 
+  saveAsync(){
+    let result = 'id,first_name,last_name,email,phone,created_at\n'
+    for (let person in this._people) {
+      result+=this._people[person].id+',';
+      result+=this._people[person].first_name+',';
+      result+=this._people[person].last_name+',';
+      result+=this._people[person].email+',';
+      result+=this._people[person].phone+',';
+      result+=this._people[person].created_at.toISOString()+'\n';
+    }
+    //result +=  this._people.join('\n')
+    fs.writeFile(this._file, result, (err)=>{if (err) throw err;
+      console.log('The file has been saved!');});
+  }
+
 }
 
 let parser = new PersonParser('people.csv')
