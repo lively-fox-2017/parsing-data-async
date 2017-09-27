@@ -16,9 +16,6 @@ class PersonParser {
     }
 
     read(callback) {
-        // retain the scope of this inside 'that' variable
-        // so the callback could access it
-        let that = this;
         const format = (err, data) => {
                 if (err) throw err;
 
@@ -35,11 +32,11 @@ class PersonParser {
                                         return person;
                                     });
 
-                that._header = header;
-                that._people = people;
+                this._header = header;
+                this._people = people;
                 console.log('Read done!');
-                // passing the Class as the callback's argument
-                callback(that);
+
+                callback();
         }
 
         const persons = fs.readFile(this._file, format);
@@ -60,7 +57,6 @@ class PersonParser {
     }
 
     save(callback) {
-        let that = this;
         const formattedHeader = this._header.join(',') + '\n';
         const formattedPeople = this._people
                                             .map(person => {
@@ -72,8 +68,8 @@ class PersonParser {
         const showWriteMessage = err => {
             if (err) throw err;
             console.log('Save done!');
-            // passing the Class as the callback's argument
-            callback(that);
+
+            callback();
         }
 
         fs.writeFile(this._file, formatted, showWriteMessage);

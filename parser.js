@@ -7,7 +7,7 @@ let parser = new PersonParser('people.csv');
 
 // parser read will pass the PersonParser's instance object (parser)
 // as its callback argument
-parser.read(parser => {
+parser.read(() => {
     // log the number of people in the parser object
     console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`);
 
@@ -18,8 +18,9 @@ parser.read(parser => {
     parser.addPerson(fakePerson);
 
     // write to file
-    parser.save(parser => {
+    parser.save(() => {
         // log the number of people after the new person is saved
         console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`);
     });
 })
+
